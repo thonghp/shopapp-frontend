@@ -9,6 +9,7 @@ import { OrderConfirmComponent } from './order-confirm/order-confirm.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { DetailProductComponent } from './detail-product/detail-product.component';
+import { FormsModule } from '@angular/forms'; // import để sử dụng data binding trong form
 
 @NgModule({
   declarations: [
@@ -21,8 +22,8 @@ import { DetailProductComponent } from './detail-product/detail-product.componen
     RegisterComponent,
     DetailProductComponent,
   ],
-  imports: [BrowserModule],
+  imports: [BrowserModule, FormsModule],
   providers: [],
-  bootstrap: [HomeComponent]
+  bootstrap: [RegisterComponent],
 })
 export class AppModule {}
