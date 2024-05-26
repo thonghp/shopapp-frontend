@@ -7,7 +7,7 @@
           <h2 class="register-header">Đăng ký</h2>
 
           <div class="form-group">
-            <label for="phone">Phone</label>
+            <label for="phone">Phone's number</label>
             <input
               type="text"
               required
@@ -15,13 +15,13 @@
               id="phone"
               name="phone"
               (focus)="registerForm.form.markAsTouched()"
-              [(ngModel)]="phone"
-              (input)="onPhoneChange()"
+              [(ngModel)]="phoneNumber"
+              (input)="onPhoneNumberChange()"
             />
             <div class="divider-nospace"></div>
             <p
               class="text-danger"
-              *ngIf="phone.length < 6 && registerForm.form.touched"
+              *ngIf="phoneNumber.length < 6 && registerForm.form.touched"
             >
               Phone phải có ít nhất 6 ký tự
             </p>
@@ -91,6 +91,7 @@
               class="form-control"
               [(ngModel)]="fullName"
               id="full-name"
+              name="fullName"
             />
             <div class="divider-nospace"></div>
           </div>
@@ -127,6 +128,7 @@
               class="form-control"
               [(ngModel)]="address"
               id="address"
+              name="address"
             />
             <div class="divider-nospace"></div>
           </div>
@@ -138,7 +140,7 @@
                   type="checkbox"
                   class="form-check-input"
                   [(ngModel)]="isAccepted"
-                  id="agree"
+                  id="agree" name="isAccepted"
                 />
                 <label class="form-check-label text-start" for="agree">
                   Tôi đồng ý với các điều khoản và điều kiện</label

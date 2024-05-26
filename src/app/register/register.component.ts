@@ -1,5 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router'; // để chuyển màn hình
+import { UserService } from '../services/user.service';
+import { RegisterDTO } from '../dtos/user/register.dto';
 
 @Component({
   selector: 'app-register',
@@ -10,7 +13,7 @@ export class RegisterComponent {
   // ở dây registerForm! để thể hiện ! null và trong file html có thẻ registerForm rồi
   @ViewChild('registerForm') registerForm!: NgForm;
 
-  phone: string;
+  phoneNumber: string;
   password: string;
   retypePassword: string;
   fullName: string;
@@ -18,16 +21,58 @@ export class RegisterComponent {
   isAccepted: boolean;
   dateOfBirth: Date;
 
-  constructor() {
-    this.phone = '';
+  // injection router và httpclient
+  constructor(private router: Router, private userService: UserService) {
+    this.phoneNumber = '';
     this.password = '';
     this.retypePassword = '';
     this.fullName = '';
     this.address = '';
-    this.isAccepted = false;
+    this.isAccepted = true;
     this.dateOfBirth = new Date();
     // bé nhất là 18 tuổi, sẽ lấy ngày hôm nay - 18 năm
     this.dateOfBirth.setFullYear(this.dateOfBirth.getFullYear() - 18);
+  }
+
+  register() {
+    const message =
+      `phoneNumber: ${this.phoneNumber}` +
+      `password: ${this.password}` +
+      `retypePassword: ${this.retypePassword}` +
+      `address: ${this.address}` +
+      `fullName: ${this.fullName}` +
+      `isAccepted: ${this.isAccepted}` +
+      `dateOfBirth: ${this.dateOfBirth}`;
+
+    debugger;
+    const registerDto: RegisterDTO = {
+      fullname: this.fullName,
+      phone_number: this.phoneNumber,
+      address: this.address,
+      password: this.password,
+      retype_password: this.retypePassword,
+      date_of_birth: this.dateOfBirth,
+      facebook_account_id: 0,
+      google_account_id: 0,
+      role_id: 1
+    };
+
+    this.userService.register(registerDto).subscribe({
+      next: (response: any) => {
+        debugger; // đăt debug để test
+        if (response && (response.status === 200 || response.status === 201)) {
+          this.router.navigate(['/login']);
+        } else {
+        }
+      },
+      complete: () => {
+        debugger;
+      },
+      error: (error: any) => {
+        debugger;
+        console.error('Đăng ký không thành công:' + error);
+      },
+    });
   }
 
   checkPasswordsMatch() {
@@ -63,12 +108,7 @@ export class RegisterComponent {
     }
   }
 
-  onPhoneChange() {
-    console.log(`type: ${this.phone}`);
-  }
-
-  register() {
-    const message = `phone: ${this.phone}` + `password: ${this.password}`;
-    alert(message);
+  onPhoneNumberChange() {
+    console.log(`type: ${this.phoneNumber}`);
   }
 }
