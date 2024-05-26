@@ -5,8 +5,16 @@
       <div class="login-form mx-auto">
         <h2 class="login-header">Đăng nhập</h2>
         <div class="form-group">
-          <label for="email">Email/Phone</label>
-          <input type="text" class="form-control" id="email" />
+          <label for="phoneNumber">Phone</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="phoneNumber"
+            (input)="onPhoneNumberChange()"
+            name="phone"
+            (focus)="loginForm.form.markAsTouched()"
+            id="phoneNumber"
+          />
           <div class="divider-nospace"></div>
         </div>
         <div class="mt-5"></div>
@@ -14,6 +22,8 @@
           <label for="password">Mật khẩu</label>
           <input
             type="password"
+            [(ngModel)]="password"
+            name="password"
             placeholder="Ít nhất 3 ký tự"
             class="form-control"
             id="password"
@@ -25,6 +35,7 @@
           <div class="form-check checkbox-text">
             <span style="display: flex">
               <input type="checkbox" class="form-check-input" id="remember" />
+              <!-- [(ngModel)]="rememberMe" -->
               <label class="form-check-label text-start" for="remember">
                 Ghi nhớ đăng nhập</label
               >
@@ -32,14 +43,20 @@
             <a href="#" class="register-link">Quên mật khẩu</a>
           </div>
         </div>
+
         <div class="form-group">
+          <!-- [(ngModel)]="selectedRole" -->
           <select class="form-control access-right">
             <option selected disabled>Quyền đăng nhập</option>
-            <option>Người dùng</option>
-            <option>Quản trị viên</option>
+            <!-- <option *ngFor="let role of roles" [ngValue]="role">
+              {{ role.name }}
+            </option> -->
           </select>
         </div>
-        <button type="button" class="login-button">Đăng nhập</button>
+
+        <button type="button" (click)="login()" class="login-button">
+          Đăng nhập
+        </button>
         <div class="divider"></div>
         <p class="text-center">
           Bạn chưa đăng ký?
