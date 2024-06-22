@@ -1,8 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router'; // để chuyển màn hình
-import { UserService } from '../services/user.service';
-import { RegisterDTO } from '../dtos/user/register.dto';
+import { UserService } from '../../services/user.service';
+import { RegisterDTO } from '../../dtos/user/register.dto';
 
 @Component({
   selector: 'app-register',
@@ -21,7 +21,6 @@ export class RegisterComponent {
   isAccepted: boolean;
   dateOfBirth: Date;
 
-  // injection router và httpclient
   constructor(private router: Router, private userService: UserService) {
     this.phoneNumber = '';
     this.password = '';
@@ -59,7 +58,7 @@ export class RegisterComponent {
 
     this.userService.register(registerDto).subscribe({
       next: (response: any) => {
-        debugger; // đăt debug để test
+        debugger; 
         if (response && (response.status === 200 || response.status === 201)) {
           this.router.navigate(['/login']);
         } else {

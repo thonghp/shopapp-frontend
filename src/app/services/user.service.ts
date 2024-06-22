@@ -13,15 +13,18 @@ export class UserService {
   private apiLogin = `${environment.apiBaseUrl}/users/login`;
 
   private apiConfig = {
-    // headers: this.httpUtilService.createHeaders(),
     headers: this.createHeaders(),
+    // headers: this.httpUtilService.createHeaders(),
   };
 
   // ,private httpUtilService: HttpUtilService
   constructor(private http: HttpClient) {}
 
   private createHeaders(): HttpHeaders {
-    return new HttpHeaders({ 'Content-Type': 'application/json' });
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Accept-Language': 'vi',
+    });
   }
 
   register(registerDTO: RegisterDTO): Observable<any> {
