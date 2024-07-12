@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { environment } from 'src/app/environments/environment';
+import { Category } from 'src/app/models/category';
 import { Product } from 'src/app/models/product';
+import { CategoryService } from 'src/app/services/category.service';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -10,31 +12,28 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class HomeComponent implements OnInit {
   products: Product[] = [];
-  // categories: Category[] = []; 
-  // selectedCategoryId: number = 0; // Giá trị category được chọn
+  categories: Category[] = []; 
+  selectedCategoryId: number = 0; // Giá trị category được chọn
   currentPage: number = 1;
-  itemsPerPage: number = 9;
+  itemsPerPage: number = 10;
   pages: number[] = [];
   totalPages: number = 0;
   visiblePages: number[] = [];
-  // keyword: string = "";
+  keyword: string = "";
 
   constructor(
     private productService: ProductService,
-    // private categoryService: CategoryService,
+    private categoryService: CategoryService,
     // private router: Router
   ) { }
 
   ngOnInit() {
-    this.getProducts(this.currentPage, this.itemsPerPage);
-    // this.getProducts(this.keyword, this.selectedCategoryId, this.currentPage, this.itemsPerPage);
-    // this.getCategories(1, 100);
+    this.getProducts(this.keyword, this.selectedCategoryId, this.currentPage, this.itemsPerPage);
+    this.getCategories(1, 100);
   }
-  getProducts(page: number, limit: number) { // keyword: string, selectedCategoryId: number,
+  getProducts(keyword: string, selectedCategoryId: number, page: number, limit: number) {
     // debugger
-    // subcribe la hàm bất đồng bộ nó chạy từ từ dòng 36 xuống tới dòng 53 xong nó data nó quay lại dòng
-    // next thực thi nếu sai nó nhảy tới dòng error sau đó quay lại dòng complete cuối cùng
-    this.productService.getProducts(page, limit).subscribe({ // keyword, selectedCategoryId,
+    this.productService.getProducts(keyword, selectedCategoryId, page, limit).subscribe({
       next: (response: any) => {
         // debugger
         response.products.forEach((product: Product) => {
@@ -58,7 +57,7 @@ export class HomeComponent implements OnInit {
     const maxVisiblePages = 5;
     const halfVisiblePages = Math.floor(maxVisiblePages / 2);
 
-    let startPage = Math.max(currentPage - halfVisiblePages, 1);
+    let startPage = Math.max(currentPage - halfVisiblePages, 1); 
     let endPage = Math.min(startPage + maxVisiblePages - 1, totalPages);
 
     if (endPage - startPage + 1 < maxVisiblePages) {
@@ -68,32 +67,33 @@ export class HomeComponent implements OnInit {
     return new Array(endPage - startPage + 1).fill(0).map((_, index) => startPage + index);
   }
 
-  onPageChange(page: number) {
+  onPageChange(page: number) { // xử lý nhấn nút chuyển trang
     // debugger;
     this.currentPage = page;
-    this.getProducts(this.currentPage, this.itemsPerPage); // this.keyword, this.selectedCategoryId,
+    this.getProducts(this.keyword, this.selectedCategoryId, this.currentPage, this.itemsPerPage);
   }
 
-  // getCategories(page: number, limit: number) {
-  //   this.categoryService.getCategories(page, limit).subscribe({
-  //     next: (categories: Category[]) => {
-  //       debugger
-  //       this.categories = categories;
-  //     },
-  //     complete: () => {
-  //       debugger;
-  //     },
-  //     error: (error: any) => {
-  //       console.error('Error fetching categories:', error);
-  //     }
-  //   });
-  // }
-  // searchProducts() {
-  //   this.currentPage = 1;
-  //   this.itemsPerPage = 12;
-  //   debugger
-  //   this.getProducts(this.keyword, this.selectedCategoryId, this.currentPage, this.itemsPerPage);
-  // }
+  searchProducts() {
+    this.currentPage = 1;
+    this.itemsPerPage = 10;
+    // debugger
+    this.getProducts(this.keyword, this.selectedCategoryId, this.currentPage, this.itemsPerPage);
+  }
+
+  getCategories(page: number, limit: number) {
+    this.categoryService.getCategories(page, limit).subscribe({
+      next: (categories: Category[]) => {
+        // debugger
+        this.categories = categories;
+      },
+      complete: () => {
+        // debugger;
+      },
+      error: (error: any) => {
+        console.error('Error fetching categories:', error);
+      }
+    });
+  }
 
   // Hàm xử lý sự kiện khi sản phẩm được bấm vào
   // onProductClick(productId: number) {

@@ -12,15 +12,16 @@ export class ProductService {
 
   constructor(private http: HttpClient) { }
 
-  getProducts(page: number, limit: number): Observable<Product[]> { // keyword: string, categoryId: number,
+  getProducts(keyword: string, categoryId: number, page: number, limit: number): Observable<Product[]> {
     const params = new HttpParams()
-      // .set('keyword', keyword)
-      // .set('category_id', categoryId)
+      .set('keyword', keyword)
+      .set('category_id', categoryId)
       .set('page', page.toString())
       .set('limit', limit.toString());
     return this.http.get<Product[]>(this.apiGetProducts, { params });
   }
-  getDetailProduct(productId: number) {
-    return this.http.get(`${environment.apiBaseUrl}/products/${productId}`);
-  }
+
+  // getDetailProduct(productId: number) {
+  //   return this.http.get(`${environment.apiBaseUrl}/products/${productId}`);
+  // }
 }
