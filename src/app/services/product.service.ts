@@ -21,7 +21,7 @@ export class ProductService {
     return this.http.get<Product[]>(this.apiGetProducts, { params });
   }
 
-  // getDetailProduct(productId: number) {
-  //   return this.http.get(`${environment.apiBaseUrl}/products/${productId}`);
-  // }
+  getDetailProduct(productId: number) {
+    return this.http.get(`${environment.apiBaseUrl}/products/${productId}`);
+  }
 }
