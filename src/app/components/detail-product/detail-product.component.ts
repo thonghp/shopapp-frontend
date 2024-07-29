@@ -32,7 +32,7 @@ export class DetailProductComponent implements OnInit {
     // Lấy productId từ URL      
     //const idParam = this.activatedRoute.snapshot.paramMap.get('id');
     // debugger
-    //this.cartService.clearCart();
+    // this.cartService.clearCart();
     const idParam = 1 //fake tạm 1 giá trị
     if (idParam !== null) {
       this.productId = +idParam;
@@ -92,27 +92,28 @@ export class DetailProductComponent implements OnInit {
     // debugger
     this.showImage(this.currentImageIndex - 1);
   }
-  // addToCart(): void {
-  //   // debugger
-  //   if (this.product) {
-  //     this.cartService.addToCart(this.product.id, this.quantity);
-  //   } else {
-  //     // Xử lý khi product là null
-  //     console.error('Không thể thêm sản phẩm vào giỏ hàng vì product là null.');
-  //   }
-  // }
+  // khi ta đã thêm sản phẩm vào localstorage thì khi tắt khởi động lại nó vẫn còn ở đó
+  addToCart(): void {
+    debugger
+    if (this.product) {
+      this.cartService.addToCart(this.product.id, this.quantity);
+    } else {
+      // Xử lý khi product là null
+      console.error('Không thể thêm sản phẩm vào giỏ hàng vì product là null.');
+    }
+  }
 
-  // increaseQuantity(): void {
-  //   this.quantity++;
-  // }
+  increaseQuantity(): void {
+    this.quantity++;
+  }
 
-  // decreaseQuantity(): void {
-  //   if (this.quantity > 1) {
-  //     this.quantity--;
-  //   }
-  // }
+  decreaseQuantity(): void {
+    if (this.quantity > 1) {
+      this.quantity--;
+    }
+  }
 
-  // buyNow(): void {
-  //   // Thực hiện xử lý khi người dùng muốn mua ngay
-  // }
+  buyNow(): void {
+    // Thực hiện xử lý khi người dùng muốn mua ngay
+  }
 }
